@@ -50,7 +50,7 @@ This application uses the OpenWeatherMap API. You'll need to subscribe and obtai
 
 1. **Sign up for an account at [https://openweathermap.org/](https://openweathermap.org/).**
 2. **Get your API key from your OpenWeatherMap account dashboard.**
-3. **In the `weather/views.py` file, replace `"9d493982b662e0f8a1693a4056979db6"` in the `weather_search` function with your actual OpenWeatherMap API key:**
+3. **In the `weather/views.py` file, replace `"YOUR_API_KEY"` in the `weather_search` function with your actual OpenWeatherMap API key:**
 
     ```python
     api_key = "YOUR_API_KEY"  # Replace with your OpenWeatherMap API key
