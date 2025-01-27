@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #4CA1AF, #C4E0E5, #2E7D89);
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            max-height: 80vh;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease;
+            position: relative;
+            overflow: hidden;
+            overflow-y: auto;
+        }
+
+        .container::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.2));
+            border-radius: 50%;
+            filter: blur(20px);
+            animation: moveLight 10s infinite alternate;
+        }
+
+        .container::after {
+            content: "";
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.2));
+            border-radius: 50%;
+            filter: blur(20px);
+            animation: moveLight 10s infinite alternate-reverse;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2E7D89;
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        h1::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 10px;
+            background: linear-gradient(90deg, #4CA1AF, #C4E0E5, #2E7D89);
+            border-radius: 5px;
+            filter: blur(5px);
+        }
+
+        .day-forecast {
+            margin-bottom: 30px;
+        }
+
+        .day-forecast h2 {
+            text-align: center;
+            color: #2E7D89;
+            margin-bottom: 10px;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .forecast-list {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .forecast-item {
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 1s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 200px;
+            text-align: center;
+        }
+
+        .forecast-item::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.2));
+            border-radius: 50%;
+            filter: blur(10px);
+            animation: moveLight 5s infinite alternate;
+        }
+
+        .forecast-item::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            right: -10px;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.2));
+            border-radius: 50%;
+            filter: blur(10px);
+            animation: moveLight 5s infinite alternate-reverse;
+        }
+
+        .forecast-item p {
+            margin: 5px 0;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .forecast-item img {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes moveLight {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            100% {
+                transform: translate(50px, 50px) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Weather Forecast for {{ city_name }}</h1>
+        {% for day, forecasts in forecast_data.items %}
+        <div class="day-forecast">
+            <h2>{{ day }}</h2>
+            <ul class="forecast-list">
+                {% for forecast, icon in forecasts %}
+                <li class="forecast-item">
+                    <img src="{{ icon }}" alt="Weather Icon">
+                    <p><strong>Time:</strong> {{ forecast.date_time|time:"H:i" }}</p>
+                    <p><strong>Weather:</strong> {{ forecast.weather_description }}</p>
+                    <p><strong>Temperature:</strong> {{ forecast.temperature }}</p>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>

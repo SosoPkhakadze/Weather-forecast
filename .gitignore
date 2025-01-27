@@ -1,0 +1,5 @@
+venv/           # Your virtual environment folder (if any)
+*.pyc          # Compiled Python files
+__pycache__/
+db.sqlite3     # Default SQLite database file (if you're using it)
+.DS_Store       # macOS specific files
